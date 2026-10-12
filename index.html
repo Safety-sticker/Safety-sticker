@@ -66,6 +66,7 @@
     border-radius:999px;
     margin-bottom:12px;
     backdrop-filter:blur(4px);
+    position:relative;
   }
   .header .logo .shield{
     width:20px;height:20px;
@@ -122,8 +123,8 @@
   .err{font-size:.8rem;color:var(--danger);margin-top:5px;display:none;}
   .err.show{display:block;}
 
-  /* Upload area */
   .upload{
+    display:block;
     border:2px dashed #cfd8dc;
     border-radius:12px;
     padding:18px;
@@ -134,7 +135,15 @@
     position:relative;
   }
   .upload:hover{border-color:var(--primary);background:var(--primary-light);}
-  .upload input[type=file]{display:none;}
+  .upload input[type=file]{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
   .upload .icon{
     width:44px;height:44px;
     margin:0 auto 8px;
@@ -214,7 +223,6 @@
   .alert.show{display:block;}
   .alert.success{background:#e8f5e9;color:var(--success);border:1px solid #a5d6a7;}
   .alert.error{background:#ffebee;color:var(--danger);border:1px solid #ef9a9a;}
-  .alert.info{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;}
 
   .footer{
     text-align:center;
@@ -261,14 +269,14 @@
     <!-- صورة البطاقة -->
     <div class="field">
       <label>صورة البطاقة الشخصية <span class="required">*</span></label>
-      <div class="upload" id="uploadIdCard">
+      <label class="upload" for="idCardFile">
         <input type="file" id="idCardFile" accept="image/jpeg,image/png,image/webp" />
         <div class="icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h4M15 12h4M7 16h10"/></svg>
         </div>
         <div class="title">اضغط لاختيار صورة البطاقة</div>
         <div class="sub">JPG / PNG / WEBP — بحد أقصى 5 ميجابايت</div>
-      </div>
+      </label>
       <div class="preview" id="previewIdCard">
         <img id="previewIdCardImg" alt="معاينة صورة البطاقة" />
         <button type="button" class="remove" data-target="idCard">إزالة</button>
@@ -279,14 +287,14 @@
     <!-- صورة اللوحة -->
     <div class="field">
       <label>صورة لوحة التوكتوك <span class="optional">(اختياري)</span></label>
-      <div class="upload" id="uploadPlate">
+      <label class="upload" for="plateFile">
         <input type="file" id="plateFile" accept="image/jpeg,image/png,image/webp" />
         <div class="icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11h2M12 11h2M18 11h.01"/></svg>
         </div>
         <div class="title">اضغط لاختيار صورة اللوحة</div>
         <div class="sub">JPG / PNG / WEBP — بحد أقصى 5 ميجابايت</div>
-      </div>
+      </label>
       <div class="preview" id="previewPlate">
         <img id="previewPlateImg" alt="معاينة صورة اللوحة" />
         <button type="button" class="remove" data-target="plate">إزالة</button>
@@ -305,14 +313,12 @@
   </div>
 </div>
 
-<!-- Firebase SDK (Compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 /* ============================================================
-   1) إعدادات Firebase — آمنة للنشر العام (مفاتيح الويب ليست أسرارًا).
-   الحماية الحقيقية تكون عبر Firestore Security Rules.
+   إعدادات Firebase
    ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBjpbZHdumCpG-klvaJAkNBfdoghlG-cTU",
@@ -328,21 +334,13 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 /* ============================================================
-   2) عنوان الـ Backend الوسيط لرفع الصور إلى ImgBB.
-   ⚠️ هذا الرابط ليس سرًّا. مفتاح ImgBB مخزَّن داخل الـ Backend نفسه.
-   استبدل الرابط بعنوان الـ Worker/Function الذي نشرته.
+   عنوان الـ Backend الوسيط (Cloudflare Worker)
    ============================================================ */
-const UPLOAD_ENDPOINT = "https://YOUR-BACKEND-URL.workers.dev/upload";
+const UPLOAD_ENDPOINT = "https://safety-sticker-upload.safety-sticker.workers.dev";
 
-/* ============================================================
-   3) الحد الأقصى لحجم الصورة
-   ============================================================ */
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg","image/png","image/webp"];
 
-/* ============================================================
-   4) عناصر الصفحة
-   ============================================================ */
 const form = document.getElementById("driverForm");
 const alertBox = document.getElementById("alertBox");
 const submitBtn = document.getElementById("submitBtn");
@@ -350,25 +348,19 @@ const btnText = submitBtn.querySelector(".btn-text");
 
 const fullNameInput = document.getElementById("fullName");
 const phoneInput = document.getElementById("phone");
-
 const idCardInput = document.getElementById("idCardFile");
 const plateInput = document.getElementById("plateFile");
 
 let idCardFileObj = null;
 let plateFileObj = null;
 
-/* ============================================================
-   5) أدوات مساعدة
-   ============================================================ */
+/* أدوات مساعدة */
 function showAlert(type, message){
   alertBox.className = "alert show " + type;
   alertBox.textContent = message;
   alertBox.scrollIntoView({behavior:"smooth", block:"center"});
 }
-function hideAlert(){
-  alertBox.className = "alert";
-  alertBox.textContent = "";
-}
+function hideAlert(){ alertBox.className = "alert"; alertBox.textContent = ""; }
 function showFieldError(id, msg){
   const el = document.getElementById("err-"+id);
   if(el){ el.textContent = msg; el.classList.add("show"); }
@@ -381,28 +373,17 @@ function clearFieldError(id){
   const input = document.getElementById(id);
   if(input) input.classList.remove("invalid");
 }
-function clearAllErrors(){
-  ["fullName","phone","idCard","plate"].forEach(clearFieldError);
-}
+function clearAllErrors(){ ["fullName","phone","idCard","plate"].forEach(clearFieldError); }
 
-/* ============================================================
-   6) التحقق من رقم الهاتف المصري
-   010 / 011 / 012 / 015 متبوعًا بـ 8 أرقام (إجمالي 11 رقمًا)
-   ============================================================ */
 function isValidEgyptianPhone(phone){
   const cleaned = String(phone).replace(/\s|-/g,"");
   return /^01[0125][0-9]{8}$/.test(cleaned);
 }
 
-/* ============================================================
-   7) إدارة ملفات الصور + المعاينة
-   ============================================================ */
 function validateFile(file){
   if(!file) return "لم يتم اختيار ملف.";
-  if(!ALLOWED_TYPES.includes(file.type))
-    return "صيغة الصورة غير مدعومة. يُسمح بـ JPG أو PNG أو WEBP فقط.";
-  if(file.size > MAX_FILE_SIZE)
-    return "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت.";
+  if(!ALLOWED_TYPES.includes(file.type)) return "صيغة الصورة غير مدعومة. يُسمح بـ JPG أو PNG أو WEBP فقط.";
+  if(file.size > MAX_FILE_SIZE) return "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت.";
   return null;
 }
 
@@ -414,117 +395,70 @@ function handleFileSelect(kind, file){
   const err = validateFile(file);
   if(err){
     showFieldError(errKey, err);
-    if(kind === "idCard") idCardFileObj = null;
-    else plateFileObj = null;
+    if(kind === "idCard") idCardFileObj = null; else plateFileObj = null;
     document.getElementById(previewId).classList.remove("show");
     return;
   }
-
   clearFieldError(errKey);
-
-  // معاينة
   const reader = new FileReader();
   reader.onload = e => {
     previewImg.src = e.target.result;
     document.getElementById(previewId).classList.add("show");
   };
   reader.readAsDataURL(file);
-
-  if(kind === "idCard") idCardFileObj = file;
-  else plateFileObj = file;
+  if(kind === "idCard") idCardFileObj = file; else plateFileObj = file;
 }
 
-// ربط أحداث اختيار الملفات
-idCardInput.addEventListener("change", e => {
-  const f = e.target.files[0];
-  if(f) handleFileSelect("idCard", f);
-});
-plateInput.addEventListener("change", e => {
-  const f = e.target.files[0];
-  if(f) handleFileSelect("plate", f);
-});
+idCardInput.addEventListener("change", e => { const f = e.target.files[0]; if(f) handleFileSelect("idCard", f); });
+plateInput.addEventListener("change", e => { const f = e.target.files[0]; if(f) handleFileSelect("plate", f); });
 
-// أزرار الإزالة
 document.querySelectorAll(".preview .remove").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+  btn.addEventListener("click", (e)=>{
+    e.preventDefault();
+    e.stopPropagation();
     const target = btn.dataset.target;
     if(target === "idCard"){
-      idCardFileObj = null;
-      idCardInput.value = "";
+      idCardFileObj = null; idCardInput.value = "";
       document.getElementById("previewIdCard").classList.remove("show");
       clearFieldError("idCard");
     } else {
-      plateFileObj = null;
-      plateInput.value = "";
+      plateFileObj = null; plateInput.value = "";
       document.getElementById("previewPlate").classList.remove("show");
       clearFieldError("plate");
     }
   });
 });
 
-/* ============================================================
-   8) رفع صورة واحدة عبر الـ Backend الوسيط (ImgBB)
-   ============================================================ */
 async function uploadImageToBackend(file, kindLabel){
   const fd = new FormData();
   fd.append("image", file);
   fd.append("kind", kindLabel);
-
-  const res = await fetch(UPLOAD_ENDPOINT, {
-    method: "POST",
-    body: fd
-  });
-
+  const res = await fetch(UPLOAD_ENDPOINT, { method: "POST", body: fd });
   let data = null;
   try { data = await res.json(); } catch(_){}
-
   if(!res.ok || !data || !data.url){
     const msg = (data && data.error) ? data.error : "فشل رفع الصورة. حاول مرة أخرى.";
     throw new Error(msg);
   }
-  return data.url; // رابط الصورة على ImgBB
+  return data.url;
 }
 
-/* ============================================================
-   9) التحقق الكامل قبل الإرسال
-   ============================================================ */
 function validateForm(){
   clearAllErrors();
   let valid = true;
-
-  // الاسم
   const name = fullNameInput.value.trim();
   if(!name){ showFieldError("fullName","يرجى إدخال الاسم الثلاثي."); valid=false; }
-  else if(name.split(/\s+/).length < 3){
-    showFieldError("fullName","يرجى إدخال الاسم الثلاثي بالكامل (3 كلمات على الأقل).");
-    valid=false;
-  } else if(name.length < 6){
-    showFieldError("fullName","الاسم قصير جدًا.");
-    valid=false;
-  }
+  else if(name.split(/\s+/).length < 3){ showFieldError("fullName","يرجى إدخال الاسم الثلاثي بالكامل (3 كلمات على الأقل)."); valid=false; }
+  else if(name.length < 6){ showFieldError("fullName","الاسم قصير جدًا."); valid=false; }
 
-  // الهاتف
   const phone = phoneInput.value.trim();
   if(!phone){ showFieldError("phone","يرجى إدخال رقم الهاتف."); valid=false; }
-  else if(!isValidEgyptianPhone(phone)){
-    showFieldError("phone","رقم الهاتف غير صحيح. يجب أن يبدأ بـ 010/011/012/015 ويتكوّن من 11 رقمًا.");
-    valid=false;
-  }
+  else if(!isValidEgyptianPhone(phone)){ showFieldError("phone","رقم الهاتف غير صحيح. يجب أن يبدأ بـ 010/011/012/015 ويتكوّن من 11 رقمًا."); valid=false; }
 
-  // البطاقة (إجباري)
-  if(!idCardFileObj){
-    showFieldError("idCard","صورة البطاقة الشخصية إجبارية.");
-    valid=false;
-  }
-
-  // اللوحة (اختياري) — لا تحقق إذا لم تُرفع
-
+  if(!idCardFileObj){ showFieldError("idCard","صورة البطاقة الشخصية إجبارية."); valid=false; }
   return valid;
 }
 
-/* ============================================================
-   10) حالة زر الإرسال
-   ============================================================ */
 function setLoading(loading, label){
   if(loading){
     submitBtn.disabled = true;
@@ -537,61 +471,38 @@ function setLoading(loading, label){
   }
 }
 
-/* ============================================================
-   11) إعادة تعيين النموذج
-   ============================================================ */
 function resetForm(){
   form.reset();
-  idCardFileObj = null;
-  plateFileObj = null;
+  idCardFileObj = null; plateFileObj = null;
   document.getElementById("previewIdCard").classList.remove("show");
   document.getElementById("previewPlate").classList.remove("show");
   clearAllErrors();
 }
 
-/* ============================================================
-   12) معالجة الإرسال
-   ============================================================ */
 form.addEventListener("submit", async (e)=>{
   e.preventDefault();
   hideAlert();
-
-  if(!validateForm()){
-    showAlert("error","يرجى تصحيح الحقول المظللة قبل الإرسال.");
-    return;
-  }
-
+  if(!validateForm()){ showAlert("error","يرجى تصحيح الحقول المظللة قبل الإرسال."); return; }
   setLoading(true, "جارٍ رفع الصور...");
-
   try {
-    // رفع صورة البطاقة (إجباري)
     const idCardUrl = await uploadImageToBackend(idCardFileObj, "id_card");
-
-    // رفع صورة اللوحة إن وُجدت
     let plateImageUrl = null;
     if(plateFileObj){
       setLoading(true, "جارٍ رفع صورة اللوحة...");
       plateImageUrl = await uploadImageToBackend(plateFileObj, "plate");
     }
-
-    // حفظ البيانات في Firestore
     setLoading(true, "جارٍ حفظ البيانات...");
-
     const phoneClean = phoneInput.value.trim().replace(/\s|-/g,"");
-
     await db.collection("driverRequests").add({
       fullName: fullNameInput.value.trim(),
       phone: phoneClean,
       idCardUrl: idCardUrl,
-      plateImageUrl: plateImageUrl, // null إذا لم تُرفع
+      plateImageUrl: plateImageUrl,
       status: "pending",
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-
-    // نجاح
     showAlert("success","تم إرسال طلب التسجيل بنجاح، وسيتم مراجعته من الإدارة.");
     resetForm();
-
   } catch(err){
     console.error(err);
     let msg = "حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.";
@@ -600,7 +511,7 @@ form.addEventListener("submit", async (e)=>{
         msg = "تعذّر الاتصال بالخادم. تحقق من الإنترنت أو من إعدادات الخدمة الوسيطة.";
       } else if(err.message.includes("permission") || err.message.includes("PERMISSION_DENIED")){
         msg = "لا توجد صلاحية لحفظ البيانات. تواصل مع الإدارة.";
-      } else if(err.message.includes("رفع الصورة")){
+      } else if(err.message.includes("فشل رفع الصورة")){
         msg = err.message;
       }
     }
