@@ -20,33 +20,36 @@
     --radius:14px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;}
+  html,body{min-height:100%;}
   body{
     font-family:'Segoe UI','Tahoma',system-ui,-apple-system,sans-serif;
     background:linear-gradient(135deg,#e6f4ef 0%,#f5f7f8 60%,#eef4ff 100%);
+    background-attachment:fixed;
     color:var(--text);
     min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+    padding:20px 16px 60px;
     line-height:1.6;
+    overflow-x:hidden;
   }
   .container{
     width:100%;
     max-width:640px;
+    margin:0 auto;
     background:var(--card);
     border-radius:var(--radius);
     box-shadow:0 10px 40px rgba(11,107,82,.12),0 2px 8px rgba(0,0,0,.05);
-    overflow:hidden;
     border:1px solid var(--border);
   }
+
+  /* ===== Header ===== */
   .header{
     background:linear-gradient(135deg,var(--primary),var(--primary-dark));
     color:#fff;
     padding:28px 26px;
     text-align:center;
     position:relative;
+    border-radius:var(--radius) var(--radius) 0 0;
+    overflow:hidden;
   }
   .header::after{
     content:"";
@@ -85,7 +88,9 @@
     opacity:.9;
     position:relative;
   }
+
   form{padding:26px;}
+
   .field{margin-bottom:20px;}
   .field label{
     display:block;
@@ -123,6 +128,7 @@
   .err{font-size:.8rem;color:var(--danger);margin-top:5px;display:none;}
   .err.show{display:block;}
 
+  /* ===== Upload Area ===== */
   .upload{
     display:block;
     border:2px dashed #cfd8dc;
@@ -165,7 +171,12 @@
     border:1px solid var(--border);
     background:#000;
   }
-  .preview img{width:100%;max-height:230px;object-fit:contain;display:block;}
+  .preview img{
+    width:100%;
+    max-height:280px;
+    object-fit:contain;
+    display:block;
+  }
   .preview .remove{
     position:absolute;
     top:8px;
@@ -174,13 +185,15 @@
     color:#fff;
     border:none;
     border-radius:8px;
-    padding:5px 10px;
-    font-size:.78rem;
+    padding:6px 12px;
+    font-size:.8rem;
     cursor:pointer;
     font-family:inherit;
+    font-weight:600;
   }
   .preview.show{display:block;}
 
+  /* ===== Button ===== */
   .btn{
     width:100%;
     padding:14px 18px;
@@ -199,7 +212,10 @@
     gap:10px;
     margin-top:6px;
   }
-  .btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,107,82,.3);}
+  .btn:hover:not(:disabled){
+    transform:translateY(-1px);
+    box-shadow:0 8px 20px rgba(11,107,82,.3);
+  }
   .btn:disabled{opacity:.65;cursor:not-allowed;transform:none;}
   .btn .spinner{
     width:18px;height:18px;
@@ -212,6 +228,7 @@
   .btn.loading .spinner{display:inline-block;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
+  /* ===== Alerts ===== */
   .alert{
     border-radius:10px;
     padding:13px 15px;
@@ -223,7 +240,109 @@
   .alert.show{display:block;}
   .alert.success{background:#e8f5e9;color:var(--success);border:1px solid #a5d6a7;}
   .alert.error{background:#ffebee;color:var(--danger);border:1px solid #ef9a9a;}
+  .alert.info{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;}
 
+  /* ===== QR Preview Section ===== */
+  #qrPreviewSection{display:none;padding:26px;}
+  .qr-header{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  .qr-header .success-icon{
+    width:70px;height:70px;
+    background:#e8f5e9;color:var(--success);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 12px;
+  }
+  .qr-header .success-icon svg{width:38px;height:38px;}
+  .qr-header h2{
+    font-size:1.3rem;color:var(--success);
+    margin-bottom:6px;
+  }
+  .qr-header p{
+    font-size:.9rem;color:var(--muted);
+  }
+
+  .warning-box{
+    background:#fff8e1;
+    border:1px solid #ffe082;
+    border-radius:12px;
+    padding:14px 16px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    font-size:.88rem;
+    color:#7a5c00;
+    margin-bottom:18px;
+    line-height:1.6;
+  }
+  .warning-box .icon{flex-shrink:0;color:#b26a00;}
+  .warning-box .icon svg{width:24px;height:24px;}
+
+  .qr-display{
+    text-align:center;
+    background:linear-gradient(135deg,#f8fafb,#eef4f1);
+    padding:24px;
+    border-radius:14px;
+    border:2px dashed var(--primary);
+    margin-bottom:18px;
+  }
+  .qr-display .brand{
+    display:flex;align-items:center;gap:8px;justify-content:center;
+    color:var(--primary);font-weight:700;font-size:1.05rem;
+    margin-bottom:14px;
+  }
+  .qr-display .brand .shield{
+    width:22px;height:22px;background:var(--accent);
+    border-radius:6px 6px 50% 50%;
+    clip-path:polygon(50% 0,100% 20%,100% 70%,50% 100%,0 70%,0 20%);
+  }
+  .qr-display img{
+    max-width:240px;
+    width:100%;
+    border-radius:10px;
+    background:#fff;
+    padding:10px;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+  }
+  .qr-display .code{
+    margin-top:14px;
+    font-family:monospace;
+    font-weight:800;
+    font-size:1.5rem;
+    color:var(--primary);
+    letter-spacing:4px;
+  }
+  .qr-display .code-label{
+    font-size:.78rem;
+    color:var(--muted);
+    margin-top:4px;
+  }
+
+  .btn-download{
+    background:linear-gradient(135deg,#1565c0,#0d47a1) !important;
+    color:#fff !important;
+  }
+  .btn-print{
+    background:#f1f4f6 !important;
+    color:var(--text) !important;
+    margin-top:10px;
+  }
+  .btn-print:hover{background:#e2e8f0 !important;}
+
+  .status-badge{
+    display:inline-block;
+    background:#fff4e0;
+    color:#b26a00;
+    font-weight:700;
+    padding:4px 14px;
+    border-radius:999px;
+    font-size:.82rem;
+    margin-top:10px;
+  }
+
+  /* ===== Footer ===== */
   .footer{
     text-align:center;
     padding:14px;
@@ -231,12 +350,17 @@
     color:var(--muted);
     background:#fafcfb;
     border-top:1px solid var(--border);
+    border-radius:0 0 var(--radius) var(--radius);
   }
 
   @media(max-width:480px){
     .header h1{font-size:1.25rem;}
     form{padding:18px;}
+    #qrPreviewSection{padding:18px;}
     .header{padding:22px 18px;}
+    body{padding:12px 12px 60px;}
+    .qr-display .code{font-size:1.2rem;letter-spacing:2px;}
+    .qr-display img{max-width:180px;}
   }
 </style>
 </head>
@@ -248,17 +372,16 @@
     <p>املأ البيانات التالية لطلب الانضمام إلى مشروع لزقة أمان</p>
   </div>
 
+  <!-- ============ الفورم ============ -->
   <form id="driverForm" novalidate>
     <div id="alertBox" class="alert" role="alert"></div>
 
-    <!-- الاسم الثلاثي -->
     <div class="field">
       <label for="fullName">الاسم الثلاثي للسائق <span class="required">*</span></label>
       <input type="text" id="fullName" name="fullName" placeholder="مثال: أحمد محمد علي" autocomplete="name" />
       <div class="err" id="err-fullName"></div>
     </div>
 
-    <!-- رقم الهاتف -->
     <div class="field">
       <label for="phone">رقم الهاتف <span class="required">*</span></label>
       <input type="tel" id="phone" name="phone" placeholder="01xxxxxxxxx" autocomplete="tel" inputmode="numeric" />
@@ -266,7 +389,6 @@
       <div class="err" id="err-phone"></div>
     </div>
 
-    <!-- صورة البطاقة -->
     <div class="field">
       <label>صورة البطاقة الشخصية <span class="required">*</span></label>
       <label class="upload" for="idCardFile">
@@ -284,7 +406,6 @@
       <div class="err" id="err-idCard"></div>
     </div>
 
-    <!-- صورة اللوحة -->
     <div class="field">
       <label>صورة لوحة التوكتوك <span class="optional">(اختياري)</span></label>
       <label class="upload" for="plateFile">
@@ -308,17 +429,79 @@
     </button>
   </form>
 
-  <div class="footer">
+  <!-- ============ QR Preview Section ============ -->
+  <div id="qrPreviewSection">
+    <div class="qr-header">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+      <h2>تم استلام طلبك بنجاح</h2>
+      <p>يمكنك الآن تنزيل رمز QR الخاص بك أدناه</p>
+      <div class="status-badge">⏳ قيد المراجعة</div>
+    </div>
+
+    <div class="warning-box">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 9v4M12 17h.01"/>
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        </svg>
+      </span>
+      <div>
+        <strong>مهم جدًا:</strong> هذا الرمز <strong>لن يعمل</strong> حتى تتم مراجعة بياناتك وموافقة الإدارة.
+        قد يستغرق التحقق حتى <strong>24 ساعة</strong>.
+        لن يستطيع الركاب بدء رحلة عبر هذا الرمز قبل الموافقة.
+      </div>
+    </div>
+
+    <div class="qr-display">
+      <div class="brand">
+        <span class="shield"></span>
+        لزقة أمان
+      </div>
+      <img id="previewQrImage" src="" alt="QR" />
+      <div class="code" id="previewQrCode">—</div>
+      <div class="code-label">كود السائق (مؤقت)</div>
+    </div>
+
+    <button type="button" id="downloadQrBtn" class="btn btn-download">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <path d="M7 10l5 5 5-5M12 15V3"/>
+      </svg>
+      تنزيل صورة QR
+    </button>
+
+    <button type="button" id="printQrBtn" class="btn btn-print">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+        <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+        <rect x="6" y="14" width="12" height="8"/>
+      </svg>
+      طباعة ملصق
+    </button>
+
+    <button type="button" id="newRequestBtn" class="btn btn-print" style="margin-top:10px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+      تسجيل سائق آخر
+    </button>
+  </div>
+
+  <div class="footer" id="mainFooter">
     بياناتك محمية ولن تُستخدم إلا لأغراض التحقق داخل مشروع لزقة أمان.
   </div>
 </div>
 
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 /* ============================================================
-   إعدادات Firebase
+   1) Firebase
    ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyBjpbZHdumCpG-klvaJAkNBfdoghlG-cTU",
@@ -333,10 +516,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ============================================================
-   عنوان الـ Backend الوسيط (Cloudflare Worker)
-   ============================================================ */
+/* عنوان الـ Backend الوسيط لرفع الصور */
 const UPLOAD_ENDPOINT = "https://safety-sticker-upload.safety-sticker.workers.dev";
+
+/* رابط صفحة الراكب */
+const PASSENGER_SITE_URL = "https://safety-sticker.github.io/Security-sticker-user/";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg","image/png","image/webp"];
@@ -354,7 +538,9 @@ const plateInput = document.getElementById("plateFile");
 let idCardFileObj = null;
 let plateFileObj = null;
 
-/* أدوات مساعدة */
+/* ============================================================
+   2) أدوات مساعدة
+   ============================================================ */
 function showAlert(type, message){
   alertBox.className = "alert show " + type;
   alertBox.textContent = message;
@@ -373,17 +559,23 @@ function clearFieldError(id){
   const input = document.getElementById(id);
   if(input) input.classList.remove("invalid");
 }
-function clearAllErrors(){ ["fullName","phone","idCard","plate"].forEach(clearFieldError); }
-
+function clearAllErrors(){
+  ["fullName","phone","idCard","plate"].forEach(clearFieldError);
+}
 function isValidEgyptianPhone(phone){
   const cleaned = String(phone).replace(/\s|-/g,"");
   return /^01[0125][0-9]{8}$/.test(cleaned);
 }
 
+/* ============================================================
+   3) إدارة ملفات الصور + المعاينة
+   ============================================================ */
 function validateFile(file){
   if(!file) return "لم يتم اختيار ملف.";
-  if(!ALLOWED_TYPES.includes(file.type)) return "صيغة الصورة غير مدعومة. يُسمح بـ JPG أو PNG أو WEBP فقط.";
-  if(file.size > MAX_FILE_SIZE) return "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت.";
+  if(!ALLOWED_TYPES.includes(file.type))
+    return "صيغة الصورة غير مدعومة. يُسمح بـ JPG أو PNG أو WEBP فقط.";
+  if(file.size > MAX_FILE_SIZE)
+    return "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت.";
   return null;
 }
 
@@ -395,22 +587,33 @@ function handleFileSelect(kind, file){
   const err = validateFile(file);
   if(err){
     showFieldError(errKey, err);
-    if(kind === "idCard") idCardFileObj = null; else plateFileObj = null;
+    if(kind === "idCard") idCardFileObj = null;
+    else plateFileObj = null;
     document.getElementById(previewId).classList.remove("show");
     return;
   }
+
   clearFieldError(errKey);
+
   const reader = new FileReader();
   reader.onload = e => {
     previewImg.src = e.target.result;
     document.getElementById(previewId).classList.add("show");
   };
   reader.readAsDataURL(file);
-  if(kind === "idCard") idCardFileObj = file; else plateFileObj = file;
+
+  if(kind === "idCard") idCardFileObj = file;
+  else plateFileObj = file;
 }
 
-idCardInput.addEventListener("change", e => { const f = e.target.files[0]; if(f) handleFileSelect("idCard", f); });
-plateInput.addEventListener("change", e => { const f = e.target.files[0]; if(f) handleFileSelect("plate", f); });
+idCardInput.addEventListener("change", e => {
+  const f = e.target.files[0];
+  if(f) handleFileSelect("idCard", f);
+});
+plateInput.addEventListener("change", e => {
+  const f = e.target.files[0];
+  if(f) handleFileSelect("plate", f);
+});
 
 document.querySelectorAll(".preview .remove").forEach(btn=>{
   btn.addEventListener("click", (e)=>{
@@ -418,24 +621,35 @@ document.querySelectorAll(".preview .remove").forEach(btn=>{
     e.stopPropagation();
     const target = btn.dataset.target;
     if(target === "idCard"){
-      idCardFileObj = null; idCardInput.value = "";
+      idCardFileObj = null;
+      idCardInput.value = "";
       document.getElementById("previewIdCard").classList.remove("show");
       clearFieldError("idCard");
     } else {
-      plateFileObj = null; plateInput.value = "";
+      plateFileObj = null;
+      plateInput.value = "";
       document.getElementById("previewPlate").classList.remove("show");
       clearFieldError("plate");
     }
   });
 });
 
+/* ============================================================
+   4) رفع صورة عبر الـ Worker
+   ============================================================ */
 async function uploadImageToBackend(file, kindLabel){
   const fd = new FormData();
   fd.append("image", file);
   fd.append("kind", kindLabel);
-  const res = await fetch(UPLOAD_ENDPOINT, { method: "POST", body: fd });
+
+  const res = await fetch(UPLOAD_ENDPOINT, {
+    method: "POST",
+    body: fd
+  });
+
   let data = null;
   try { data = await res.json(); } catch(_){}
+
   if(!res.ok || !data || !data.url){
     const msg = (data && data.error) ? data.error : "فشل رفع الصورة. حاول مرة أخرى.";
     throw new Error(msg);
@@ -443,22 +657,132 @@ async function uploadImageToBackend(file, kindLabel){
   return data.url;
 }
 
+/* ============================================================
+   5) توليد كود QR مؤقت
+   ============================================================ */
+function generatePendingDriverCode(){
+  return "D-" + Math.floor(1000 + Math.random() * 9000);
+}
+
+function buildPassengerPendingUrl(driverCode){
+  const base = PASSENGER_SITE_URL.endsWith("/")
+    ? PASSENGER_SITE_URL
+    : PASSENGER_SITE_URL + "/";
+  return `${base}?pendingDriver=${encodeURIComponent(driverCode)}`;
+}
+
+function qrImageUrl(text, size=400){
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&margin=10`;
+}
+
+/* ============================================================
+   6) عرض الـ QR بعد الإرسال
+   ============================================================ */
+function showQrPreview(driverCode){
+  const qrContent = buildPassengerPendingUrl(driverCode);
+
+  document.getElementById("previewQrImage").src = qrImageUrl(qrContent, 400);
+  document.getElementById("previewQrCode").textContent = driverCode;
+
+  // إخفاء الفورم وإظهار الـ QR
+  form.style.display = "none";
+  document.getElementById("qrPreviewSection").style.display = "block";
+  document.getElementById("mainFooter").textContent = "شكرًا لتسجيلك. يمكنك تنزيل رمز QR الخاص بك الآن.";
+
+  // زر التنزيل
+  document.getElementById("downloadQrBtn").onclick = ()=>{
+    const url = qrImageUrl(qrContent, 800);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${driverCode}-qr.png`;
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  // زر الطباعة
+  document.getElementById("printQrBtn").onclick = ()=>{
+    const url = qrImageUrl(qrContent, 600);
+    const win = window.open("", "_blank");
+    win.document.write(`
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+      <head>
+        <meta charset="UTF-8">
+        <title>طباعة QR — ${driverCode}</title>
+        <style>
+          *{box-sizing:border-box;margin:0;padding:0;}
+          body{font-family:Tahoma;text-align:center;padding:30px;background:#fff;}
+          .brand{display:flex;align-items:center;gap:8px;justify-content:center;color:#0b6b52;font-weight:700;font-size:1.3rem;margin-bottom:18px;}
+          .shield{width:28px;height:28px;background:#f4b400;border-radius:6px 6px 50% 50%;clip-path:polygon(50% 0,100% 20%,100% 70%,50% 100%,0 70%,0 20%);}
+          .box{border:2px dashed #0b6b52;border-radius:14px;padding:26px;max-width:340px;margin:0 auto;background:#f8fafb;}
+          img{max-width:220px;margin:10px auto;display:block;background:#fff;padding:8px;border-radius:8px;}
+          .code{font-family:'Courier New',monospace;font-weight:800;color:#0b6b52;font-size:1.3rem;letter-spacing:3px;margin-top:8px;}
+          .hint{font-size:.85rem;color:#6b7280;margin-top:10px;line-height:1.5;}
+          .warn{background:#fff8e1;border:1px solid #ffe082;padding:10px 12px;border-radius:8px;font-size:.8rem;color:#7a5c00;margin-top:16px;line-height:1.5;}
+          @media print{body{padding:0;} .box{page-break-inside:avoid;}}
+        </style>
+      </head>
+      <body>
+        <div class="brand"><span class="shield"></span> لزقة أمان</div>
+        <div class="box">
+          <img src="${url}" alt="QR" />
+          <div class="code">${driverCode}</div>
+          <div class="hint">امسح الكود بكاميرا هاتفك للتحقق من بيانات السائق</div>
+          <div class="warn">⚠️ لن يُفعَّل هذا الكود إلا بعد موافقة الإدارة على طلب التسجيل (قد تستغرق المراجعة حتى 24 ساعة).</div>
+        </div>
+        <script>window.onload=()=>{setTimeout(()=>{window.print();},500);};<\/script>
+      </body>
+      </html>
+    `);
+    win.document.close();
+  };
+
+  // زر تسجيل سائق آخر
+  document.getElementById("newRequestBtn").onclick = ()=>{
+    location.reload();
+  };
+
+  // تمرير للأعلى
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ============================================================
+   7) التحقق الكامل
+   ============================================================ */
 function validateForm(){
   clearAllErrors();
   let valid = true;
+
   const name = fullNameInput.value.trim();
   if(!name){ showFieldError("fullName","يرجى إدخال الاسم الثلاثي."); valid=false; }
-  else if(name.split(/\s+/).length < 3){ showFieldError("fullName","يرجى إدخال الاسم الثلاثي بالكامل (3 كلمات على الأقل)."); valid=false; }
-  else if(name.length < 6){ showFieldError("fullName","الاسم قصير جدًا."); valid=false; }
+  else if(name.split(/\s+/).length < 3){
+    showFieldError("fullName","يرجى إدخال الاسم الثلاثي بالكامل (3 كلمات على الأقل).");
+    valid=false;
+  } else if(name.length < 6){
+    showFieldError("fullName","الاسم قصير جدًا.");
+    valid=false;
+  }
 
   const phone = phoneInput.value.trim();
   if(!phone){ showFieldError("phone","يرجى إدخال رقم الهاتف."); valid=false; }
-  else if(!isValidEgyptianPhone(phone)){ showFieldError("phone","رقم الهاتف غير صحيح. يجب أن يبدأ بـ 010/011/012/015 ويتكوّن من 11 رقمًا."); valid=false; }
+  else if(!isValidEgyptianPhone(phone)){
+    showFieldError("phone","رقم الهاتف غير صحيح. يجب أن يبدأ بـ 010/011/012/015 ويتكوّن من 11 رقمًا.");
+    valid=false;
+  }
 
-  if(!idCardFileObj){ showFieldError("idCard","صورة البطاقة الشخصية إجبارية."); valid=false; }
+  if(!idCardFileObj){
+    showFieldError("idCard","صورة البطاقة الشخصية إجبارية.");
+    valid=false;
+  }
+
   return valid;
 }
 
+/* ============================================================
+   8) حالة زر الإرسال
+   ============================================================ */
 function setLoading(loading, label){
   if(loading){
     submitBtn.disabled = true;
@@ -471,52 +795,64 @@ function setLoading(loading, label){
   }
 }
 
-function resetForm(){
-  form.reset();
-  idCardFileObj = null; plateFileObj = null;
-  document.getElementById("previewIdCard").classList.remove("show");
-  document.getElementById("previewPlate").classList.remove("show");
-  clearAllErrors();
-}
-
+/* ============================================================
+   9) إرسال النموذج
+   ============================================================ */
 form.addEventListener("submit", async (e)=>{
   e.preventDefault();
   hideAlert();
-  if(!validateForm()){ showAlert("error","يرجى تصحيح الحقول المظللة قبل الإرسال."); return; }
+
+  if(!validateForm()){
+    showAlert("error","يرجى تصحيح الحقول المظللة قبل الإرسال.");
+    return;
+  }
+
   setLoading(true, "جارٍ رفع الصور...");
+
   try {
     const idCardUrl = await uploadImageToBackend(idCardFileObj, "id_card");
+
     let plateImageUrl = null;
     if(plateFileObj){
       setLoading(true, "جارٍ رفع صورة اللوحة...");
       plateImageUrl = await uploadImageToBackend(plateFileObj, "plate");
     }
+
     setLoading(true, "جارٍ حفظ البيانات...");
+
     const phoneClean = phoneInput.value.trim().replace(/\s|-/g,"");
+
+    // ✅ توليد كود سائق مؤقت
+    const pendingDriverCode = generatePendingDriverCode();
+
+    // ✅ حفظ الطلب في Firestore مع الكود المؤقت
     await db.collection("driverRequests").add({
       fullName: fullNameInput.value.trim(),
       phone: phoneClean,
       idCardUrl: idCardUrl,
       plateImageUrl: plateImageUrl,
       status: "pending",
+      pendingDriverCode: pendingDriverCode,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    showAlert("success","تم إرسال طلب التسجيل بنجاح، وسيتم مراجعته من الإدارة.");
-    resetForm();
+
+    // ✅ عرض الـ QR
+    setLoading(false);
+    showQrPreview(pendingDriverCode);
+
   } catch(err){
     console.error(err);
     let msg = "حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.";
     if(err && err.message){
       if(err.message.includes("Failed to fetch") || err.message.includes("NetworkError")){
-        msg = "تعذّر الاتصال بالخادم. تحقق من الإنترنت أو من إعدادات الخدمة الوسيطة.";
+        msg = "تعذّر الاتصال بالخادم. تحقق من الإنترنت.";
       } else if(err.message.includes("permission") || err.message.includes("PERMISSION_DENIED")){
         msg = "لا توجد صلاحية لحفظ البيانات. تواصل مع الإدارة.";
-      } else if(err.message.includes("فشل رفع الصورة")){
+      } else if(err.message.includes("رفع الصورة")){
         msg = err.message;
       }
     }
     showAlert("error", msg);
-  } finally {
     setLoading(false);
   }
 });
