@@ -14,7 +14,6 @@
     --success:#2e7d32;
     --text:#1a1a1a;
     --muted:#6b7280;
-    --bg:#f5f7f8;
     --card:#ffffff;
     --border:#e2e8f0;
     --radius:14px;
@@ -41,7 +40,7 @@
     border:1px solid var(--border);
   }
 
-  /* ===== Header ===== */
+  /* Header */
   .header{
     background:linear-gradient(135deg,var(--primary),var(--primary-dark));
     color:#fff;
@@ -59,68 +58,38 @@
     pointer-events:none;
   }
   .header .logo{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    font-size:1.05rem;
-    font-weight:600;
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:1.05rem;font-weight:600;
     background:rgba(255,255,255,.15);
-    padding:6px 14px;
-    border-radius:999px;
-    margin-bottom:12px;
-    backdrop-filter:blur(4px);
+    padding:6px 14px;border-radius:999px;
+    margin-bottom:12px;backdrop-filter:blur(4px);
     position:relative;
   }
   .header .logo .shield{
-    width:20px;height:20px;
-    background:var(--accent);
+    width:20px;height:20px;background:var(--accent);
     border-radius:6px 6px 50% 50%;
     clip-path:polygon(50% 0,100% 20%,100% 70%,50% 100%,0 70%,0 20%);
   }
-  .header h1{
-    font-size:1.5rem;
-    font-weight:700;
-    margin-bottom:6px;
-    position:relative;
-  }
-  .header p{
-    font-size:.9rem;
-    opacity:.9;
-    position:relative;
-  }
+  .header h1{font-size:1.5rem;font-weight:700;margin-bottom:6px;position:relative;}
+  .header p{font-size:.9rem;opacity:.9;position:relative;}
 
   form{padding:26px;}
 
   .field{margin-bottom:20px;}
   .field label{
-    display:block;
-    font-weight:600;
-    font-size:.93rem;
-    margin-bottom:8px;
-    color:var(--text);
+    display:block;font-weight:600;font-size:.93rem;
+    margin-bottom:8px;color:var(--text);
   }
   .field label .required{color:var(--danger);margin-inline-start:4px;}
-  .field label .optional{
-    color:var(--muted);
-    font-weight:400;
-    font-size:.8rem;
+  .field label .optional{color:var(--muted);font-weight:400;font-size:.8rem;}
+  .field input[type="text"],.field input[type="tel"]{
+    width:100%;padding:12px 14px;
+    border:1.5px solid var(--border);border-radius:10px;
+    font-size:1rem;font-family:inherit;background:#fbfdfc;
+    transition:.2s;outline:none;
   }
-  .field input[type="text"],
-  .field input[type="tel"]{
-    width:100%;
-    padding:12px 14px;
-    border:1.5px solid var(--border);
-    border-radius:10px;
-    font-size:1rem;
-    font-family:inherit;
-    background:#fbfdfc;
-    transition:.2s;
-    outline:none;
-  }
-  .field input[type="text"]:focus,
-  .field input[type="tel"]:focus{
-    border-color:var(--primary);
-    background:#fff;
+  .field input[type="text"]:focus,.field input[type="tel"]:focus{
+    border-color:var(--primary);background:#fff;
     box-shadow:0 0 0 4px rgba(11,107,82,.12);
   }
   .field input.invalid{border-color:var(--danger);background:#fdf3f3;}
@@ -128,33 +97,21 @@
   .err{font-size:.8rem;color:var(--danger);margin-top:5px;display:none;}
   .err.show{display:block;}
 
-  /* ===== Upload Area ===== */
+  /* Upload */
   .upload{
-    display:block;
-    border:2px dashed #cfd8dc;
-    border-radius:12px;
-    padding:18px;
-    text-align:center;
-    background:#fafcfb;
-    cursor:pointer;
-    transition:.2s;
-    position:relative;
+    display:block;border:2px dashed #cfd8dc;border-radius:12px;
+    padding:18px;text-align:center;background:#fafcfb;
+    cursor:pointer;transition:.2s;position:relative;
   }
   .upload:hover{border-color:var(--primary);background:var(--primary-light);}
   .upload input[type=file]{
-    position:absolute;
-    width:1px;height:1px;
-    padding:0;margin:-1px;
-    overflow:hidden;
-    clip:rect(0,0,0,0);
-    white-space:nowrap;
-    border:0;
+    position:absolute;width:1px;height:1px;
+    padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
   }
   .upload .icon{
-    width:44px;height:44px;
-    margin:0 auto 8px;
-    background:var(--primary-light);
-    border-radius:12px;
+    width:44px;height:44px;margin:0 auto 8px;
+    background:var(--primary-light);border-radius:12px;
     display:flex;align-items:center;justify-content:center;
     color:var(--primary);
   }
@@ -163,119 +120,67 @@
   .upload .sub{font-size:.78rem;color:var(--muted);margin-top:3px;}
 
   .preview{
-    margin-top:12px;
-    display:none;
-    position:relative;
-    border-radius:10px;
-    overflow:hidden;
-    border:1px solid var(--border);
-    background:#000;
+    margin-top:12px;display:none;position:relative;
+    border-radius:10px;overflow:hidden;
+    border:1px solid var(--border);background:#000;
   }
-  .preview img{
-    width:100%;
-    max-height:280px;
-    object-fit:contain;
-    display:block;
-  }
+  .preview img{width:100%;max-height:280px;object-fit:contain;display:block;}
   .preview .remove{
-    position:absolute;
-    top:8px;
-    inset-inline-start:8px;
-    background:rgba(198,40,40,.95);
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    padding:6px 12px;
-    font-size:.8rem;
-    cursor:pointer;
-    font-family:inherit;
-    font-weight:600;
+    position:absolute;top:8px;inset-inline-start:8px;
+    background:rgba(198,40,40,.95);color:#fff;
+    border:none;border-radius:8px;padding:6px 12px;
+    font-size:.8rem;cursor:pointer;font-family:inherit;font-weight:600;
   }
   .preview.show{display:block;}
 
-  /* ===== Button ===== */
+  /* Button */
   .btn{
-    width:100%;
-    padding:14px 18px;
+    width:100%;padding:14px 18px;
     background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-    color:#fff;
-    border:none;
-    border-radius:10px;
-    font-size:1.02rem;
-    font-weight:700;
-    font-family:inherit;
-    cursor:pointer;
-    transition:.2s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
+    color:#fff;border:none;border-radius:10px;
+    font-size:1.02rem;font-weight:700;font-family:inherit;
+    cursor:pointer;transition:.2s;
+    display:flex;align-items:center;justify-content:center;gap:10px;
     margin-top:6px;
   }
-  .btn:hover:not(:disabled){
-    transform:translateY(-1px);
-    box-shadow:0 8px 20px rgba(11,107,82,.3);
-  }
+  .btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,107,82,.3);}
   .btn:disabled{opacity:.65;cursor:not-allowed;transform:none;}
   .btn .spinner{
     width:18px;height:18px;
     border:2.5px solid rgba(255,255,255,.35);
-    border-top-color:#fff;
-    border-radius:50%;
-    animation:spin .7s linear infinite;
-    display:none;
+    border-top-color:#fff;border-radius:50%;
+    animation:spin .7s linear infinite;display:none;
   }
   .btn.loading .spinner{display:inline-block;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
-  /* ===== Alerts ===== */
+  /* Alerts */
   .alert{
-    border-radius:10px;
-    padding:13px 15px;
-    font-size:.92rem;
-    margin-bottom:18px;
-    display:none;
-    font-weight:500;
+    border-radius:10px;padding:13px 15px;font-size:.92rem;
+    margin-bottom:18px;display:none;font-weight:500;
   }
   .alert.show{display:block;}
   .alert.success{background:#e8f5e9;color:var(--success);border:1px solid #a5d6a7;}
   .alert.error{background:#ffebee;color:var(--danger);border:1px solid #ef9a9a;}
   .alert.info{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;}
 
-  /* ===== QR Preview Section ===== */
+  /* QR Preview */
   #qrPreviewSection{display:none;padding:26px;}
-  .qr-header{
-    text-align:center;
-    margin-bottom:18px;
-  }
+  .qr-header{text-align:center;margin-bottom:18px;}
   .qr-header .success-icon{
-    width:70px;height:70px;
-    background:#e8f5e9;color:var(--success);
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
+    width:70px;height:70px;background:#e8f5e9;color:var(--success);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
     margin:0 auto 12px;
   }
   .qr-header .success-icon svg{width:38px;height:38px;}
-  .qr-header h2{
-    font-size:1.3rem;color:var(--success);
-    margin-bottom:6px;
-  }
-  .qr-header p{
-    font-size:.9rem;color:var(--muted);
-  }
+  .qr-header h2{font-size:1.3rem;color:var(--success);margin-bottom:6px;}
+  .qr-header p{font-size:.9rem;color:var(--muted);}
 
   .warning-box{
-    background:#fff8e1;
-    border:1px solid #ffe082;
-    border-radius:12px;
-    padding:14px 16px;
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-    font-size:.88rem;
-    color:#7a5c00;
-    margin-bottom:18px;
-    line-height:1.6;
+    background:#fff8e1;border:1px solid #ffe082;
+    border-radius:12px;padding:14px 16px;
+    display:flex;gap:12px;align-items:flex-start;
+    font-size:.88rem;color:#7a5c00;margin-bottom:18px;line-height:1.6;
   }
   .warning-box .icon{flex-shrink:0;color:#b26a00;}
   .warning-box .icon svg{width:24px;height:24px;}
@@ -283,10 +188,8 @@
   .qr-display{
     text-align:center;
     background:linear-gradient(135deg,#f8fafb,#eef4f1);
-    padding:24px;
-    border-radius:14px;
-    border:2px dashed var(--primary);
-    margin-bottom:18px;
+    padding:24px;border-radius:14px;
+    border:2px dashed var(--primary);margin-bottom:18px;
   }
   .qr-display .brand{
     display:flex;align-items:center;gap:8px;justify-content:center;
@@ -299,56 +202,32 @@
     clip-path:polygon(50% 0,100% 20%,100% 70%,50% 100%,0 70%,0 20%);
   }
   .qr-display img{
-    max-width:240px;
-    width:100%;
-    border-radius:10px;
-    background:#fff;
-    padding:10px;
+    max-width:240px;width:100%;border-radius:10px;
+    background:#fff;padding:10px;
     box-shadow:0 4px 16px rgba(0,0,0,.06);
   }
   .qr-display .code{
-    margin-top:14px;
-    font-family:monospace;
-    font-weight:800;
-    font-size:1.5rem;
-    color:var(--primary);
-    letter-spacing:4px;
+    margin-top:14px;font-family:monospace;font-weight:800;
+    font-size:1.5rem;color:var(--primary);letter-spacing:4px;
   }
   .qr-display .code-label{
-    font-size:.78rem;
-    color:var(--muted);
-    margin-top:4px;
+    font-size:.78rem;color:var(--muted);margin-top:4px;
   }
-
-  .btn-download{
-    background:linear-gradient(135deg,#1565c0,#0d47a1) !important;
-    color:#fff !important;
-  }
-  .btn-print{
-    background:#f1f4f6 !important;
-    color:var(--text) !important;
-    margin-top:10px;
-  }
-  .btn-print:hover{background:#e2e8f0 !important;}
 
   .status-badge{
-    display:inline-block;
-    background:#fff4e0;
-    color:#b26a00;
-    font-weight:700;
-    padding:4px 14px;
-    border-radius:999px;
-    font-size:.82rem;
-    margin-top:10px;
+    display:inline-block;background:#fff4e0;color:#b26a00;
+    font-weight:700;padding:4px 14px;border-radius:999px;
+    font-size:.82rem;margin-top:10px;
   }
 
-  /* ===== Footer ===== */
+  .btn-download{background:linear-gradient(135deg,#1565c0,#0d47a1) !important;color:#fff !important;}
+  .btn-print{background:#f1f4f6 !important;color:var(--text) !important;margin-top:10px;}
+  .btn-print:hover{background:#e2e8f0 !important;}
+
+  /* Footer */
   .footer{
-    text-align:center;
-    padding:14px;
-    font-size:.78rem;
-    color:var(--muted);
-    background:#fafcfb;
+    text-align:center;padding:14px;font-size:.78rem;
+    color:var(--muted);background:#fafcfb;
     border-top:1px solid var(--border);
     border-radius:0 0 var(--radius) var(--radius);
   }
@@ -372,7 +251,7 @@
     <p>املأ البيانات التالية لطلب الانضمام إلى مشروع لزقة أمان</p>
   </div>
 
-  <!-- ============ الفورم ============ -->
+  <!-- Form -->
   <form id="driverForm" novalidate>
     <div id="alertBox" class="alert" role="alert"></div>
 
@@ -429,13 +308,11 @@
     </button>
   </form>
 
-  <!-- ============ QR Preview Section ============ -->
+  <!-- QR Preview Section -->
   <div id="qrPreviewSection">
     <div class="qr-header">
       <div class="success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-          <path d="M20 6L9 17l-5-5"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
       <h2>تم استلام طلبك بنجاح</h2>
       <p>يمكنك الآن تنزيل رمز QR الخاص بك أدناه</p>
@@ -453,6 +330,8 @@
         <strong>مهم جدًا:</strong> هذا الرمز <strong>لن يعمل</strong> حتى تتم مراجعة بياناتك وموافقة الإدارة.
         قد يستغرق التحقق حتى <strong>24 ساعة</strong>.
         لن يستطيع الركاب بدء رحلة عبر هذا الرمز قبل الموافقة.
+        <br><br>
+        <strong>ملاحظة:</strong> الرمز <strong>ثابت ولا يتغير</strong> — بعد موافقة الإدارة، سيشتغل تلقائيًا بدون الحاجة لتوليد رمز جديد.
       </div>
     </div>
 
@@ -463,7 +342,7 @@
       </div>
       <img id="previewQrImage" src="" alt="QR" />
       <div class="code" id="previewQrCode">—</div>
-      <div class="code-label">كود السائق (مؤقت)</div>
+      <div class="code-label">كود السائق</div>
     </div>
 
     <button type="button" id="downloadQrBtn" class="btn btn-download">
@@ -495,7 +374,6 @@
   </div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -516,10 +394,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* عنوان الـ Backend الوسيط لرفع الصور */
 const UPLOAD_ENDPOINT = "https://safety-sticker-upload.safety-sticker.workers.dev";
-
-/* رابط صفحة الراكب */
 const PASSENGER_SITE_URL = "https://safety-sticker.github.io/Security-sticker-user/";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -539,7 +414,7 @@ let idCardFileObj = null;
 let plateFileObj = null;
 
 /* ============================================================
-   2) أدوات مساعدة
+   2) أدوات
    ============================================================ */
 function showAlert(type, message){
   alertBox.className = "alert show " + type;
@@ -563,19 +438,16 @@ function clearAllErrors(){
   ["fullName","phone","idCard","plate"].forEach(clearFieldError);
 }
 function isValidEgyptianPhone(phone){
-  const cleaned = String(phone).replace(/\s|-/g,"");
-  return /^01[0125][0-9]{8}$/.test(cleaned);
+  return /^01[0125][0-9]{8}$/.test(String(phone).replace(/\s|-/g,""));
 }
 
 /* ============================================================
-   3) إدارة ملفات الصور + المعاينة
+   3) إدارة الصور
    ============================================================ */
 function validateFile(file){
   if(!file) return "لم يتم اختيار ملف.";
-  if(!ALLOWED_TYPES.includes(file.type))
-    return "صيغة الصورة غير مدعومة. يُسمح بـ JPG أو PNG أو WEBP فقط.";
-  if(file.size > MAX_FILE_SIZE)
-    return "حجم الصورة كبير جدًا. الحد الأقصى 5 ميجابايت.";
+  if(!ALLOWED_TYPES.includes(file.type)) return "صيغة الصورة غير مدعومة.";
+  if(file.size > MAX_FILE_SIZE) return "حجم الصورة يتجاوز 5 ميجابايت.";
   return null;
 }
 
@@ -583,51 +455,36 @@ function handleFileSelect(kind, file){
   const previewId = kind === "idCard" ? "previewIdCard" : "previewPlate";
   const previewImg = document.getElementById(previewId+"Img");
   const errKey = kind === "idCard" ? "idCard" : "plate";
-
   const err = validateFile(file);
   if(err){
     showFieldError(errKey, err);
-    if(kind === "idCard") idCardFileObj = null;
-    else plateFileObj = null;
+    if(kind === "idCard") idCardFileObj = null; else plateFileObj = null;
     document.getElementById(previewId).classList.remove("show");
     return;
   }
-
   clearFieldError(errKey);
-
   const reader = new FileReader();
   reader.onload = e => {
     previewImg.src = e.target.result;
     document.getElementById(previewId).classList.add("show");
   };
   reader.readAsDataURL(file);
-
-  if(kind === "idCard") idCardFileObj = file;
-  else plateFileObj = file;
+  if(kind === "idCard") idCardFileObj = file; else plateFileObj = file;
 }
 
-idCardInput.addEventListener("change", e => {
-  const f = e.target.files[0];
-  if(f) handleFileSelect("idCard", f);
-});
-plateInput.addEventListener("change", e => {
-  const f = e.target.files[0];
-  if(f) handleFileSelect("plate", f);
-});
+idCardInput.addEventListener("change", e => { const f = e.target.files[0]; if(f) handleFileSelect("idCard", f); });
+plateInput.addEventListener("change", e => { const f = e.target.files[0]; if(f) handleFileSelect("plate", f); });
 
 document.querySelectorAll(".preview .remove").forEach(btn=>{
   btn.addEventListener("click", (e)=>{
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     const target = btn.dataset.target;
     if(target === "idCard"){
-      idCardFileObj = null;
-      idCardInput.value = "";
+      idCardFileObj = null; idCardInput.value = "";
       document.getElementById("previewIdCard").classList.remove("show");
       clearFieldError("idCard");
     } else {
-      plateFileObj = null;
-      plateInput.value = "";
+      plateFileObj = null; plateInput.value = "";
       document.getElementById("previewPlate").classList.remove("show");
       clearFieldError("plate");
     }
@@ -635,40 +492,34 @@ document.querySelectorAll(".preview .remove").forEach(btn=>{
 });
 
 /* ============================================================
-   4) رفع صورة عبر الـ Worker
+   4) رفع الصور
    ============================================================ */
 async function uploadImageToBackend(file, kindLabel){
   const fd = new FormData();
   fd.append("image", file);
   fd.append("kind", kindLabel);
-
-  const res = await fetch(UPLOAD_ENDPOINT, {
-    method: "POST",
-    body: fd
-  });
-
+  const res = await fetch(UPLOAD_ENDPOINT, { method: "POST", body: fd });
   let data = null;
   try { data = await res.json(); } catch(_){}
-
   if(!res.ok || !data || !data.url){
-    const msg = (data && data.error) ? data.error : "فشل رفع الصورة. حاول مرة أخرى.";
-    throw new Error(msg);
+    throw new Error((data && data.error) ? data.error : "فشل رفع الصورة.");
   }
   return data.url;
 }
 
 /* ============================================================
-   5) توليد كود QR مؤقت
+   5) توليد كود السائق + QR
    ============================================================ */
 function generatePendingDriverCode(){
   return "D-" + Math.floor(1000 + Math.random() * 9000);
 }
 
-function buildPassengerPendingUrl(driverCode){
+/* ✅ الرابط يستخدم ?driver= مباشرة (نفس QR الحقيقي) */
+function buildPassengerUrl(driverCode){
   const base = PASSENGER_SITE_URL.endsWith("/")
     ? PASSENGER_SITE_URL
     : PASSENGER_SITE_URL + "/";
-  return `${base}?pendingDriver=${encodeURIComponent(driverCode)}`;
+  return `${base}?driver=${encodeURIComponent(driverCode)}`;
 }
 
 function qrImageUrl(text, size=400){
@@ -676,20 +527,18 @@ function qrImageUrl(text, size=400){
 }
 
 /* ============================================================
-   6) عرض الـ QR بعد الإرسال
+   6) عرض الـ QR
    ============================================================ */
 function showQrPreview(driverCode){
-  const qrContent = buildPassengerPendingUrl(driverCode);
+  const qrContent = buildPassengerUrl(driverCode);
 
   document.getElementById("previewQrImage").src = qrImageUrl(qrContent, 400);
   document.getElementById("previewQrCode").textContent = driverCode;
 
-  // إخفاء الفورم وإظهار الـ QR
   form.style.display = "none";
   document.getElementById("qrPreviewSection").style.display = "block";
   document.getElementById("mainFooter").textContent = "شكرًا لتسجيلك. يمكنك تنزيل رمز QR الخاص بك الآن.";
 
-  // زر التنزيل
   document.getElementById("downloadQrBtn").onclick = ()=>{
     const url = qrImageUrl(qrContent, 800);
     const a = document.createElement("a");
@@ -701,7 +550,6 @@ function showQrPreview(driverCode){
     document.body.removeChild(a);
   };
 
-  // زر الطباعة
   document.getElementById("printQrBtn").onclick = ()=>{
     const url = qrImageUrl(qrContent, 600);
     const win = window.open("", "_blank");
@@ -739,17 +587,13 @@ function showQrPreview(driverCode){
     win.document.close();
   };
 
-  // زر تسجيل سائق آخر
-  document.getElementById("newRequestBtn").onclick = ()=>{
-    location.reload();
-  };
+  document.getElementById("newRequestBtn").onclick = ()=>{ location.reload(); };
 
-  // تمرير للأعلى
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
 /* ============================================================
-   7) التحقق الكامل
+   7) التحقق
    ============================================================ */
 function validateForm(){
   clearAllErrors();
@@ -758,7 +602,7 @@ function validateForm(){
   const name = fullNameInput.value.trim();
   if(!name){ showFieldError("fullName","يرجى إدخال الاسم الثلاثي."); valid=false; }
   else if(name.split(/\s+/).length < 3){
-    showFieldError("fullName","يرجى إدخال الاسم الثلاثي بالكامل (3 كلمات على الأقل).");
+    showFieldError("fullName","يرجى إدخال الاسم الثلاثي بالكامل.");
     valid=false;
   } else if(name.length < 6){
     showFieldError("fullName","الاسم قصير جدًا.");
@@ -768,7 +612,7 @@ function validateForm(){
   const phone = phoneInput.value.trim();
   if(!phone){ showFieldError("phone","يرجى إدخال رقم الهاتف."); valid=false; }
   else if(!isValidEgyptianPhone(phone)){
-    showFieldError("phone","رقم الهاتف غير صحيح. يجب أن يبدأ بـ 010/011/012/015 ويتكوّن من 11 رقمًا.");
+    showFieldError("phone","رقم الهاتف غير صحيح.");
     valid=false;
   }
 
@@ -780,9 +624,6 @@ function validateForm(){
   return valid;
 }
 
-/* ============================================================
-   8) حالة زر الإرسال
-   ============================================================ */
 function setLoading(loading, label){
   if(loading){
     submitBtn.disabled = true;
@@ -796,7 +637,7 @@ function setLoading(loading, label){
 }
 
 /* ============================================================
-   9) إرسال النموذج
+   8) إرسال النموذج
    ============================================================ */
 form.addEventListener("submit", async (e)=>{
   e.preventDefault();
@@ -821,11 +662,8 @@ form.addEventListener("submit", async (e)=>{
     setLoading(true, "جارٍ حفظ البيانات...");
 
     const phoneClean = phoneInput.value.trim().replace(/\s|-/g,"");
-
-    // ✅ توليد كود سائق مؤقت
     const pendingDriverCode = generatePendingDriverCode();
 
-    // ✅ حفظ الطلب في Firestore مع الكود المؤقت
     await db.collection("driverRequests").add({
       fullName: fullNameInput.value.trim(),
       phone: phoneClean,
@@ -836,21 +674,16 @@ form.addEventListener("submit", async (e)=>{
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // ✅ عرض الـ QR
     setLoading(false);
     showQrPreview(pendingDriverCode);
 
   } catch(err){
     console.error(err);
-    let msg = "حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.";
+    let msg = "حدث خطأ أثناء إرسال الطلب.";
     if(err && err.message){
-      if(err.message.includes("Failed to fetch") || err.message.includes("NetworkError")){
-        msg = "تعذّر الاتصال بالخادم. تحقق من الإنترنت.";
-      } else if(err.message.includes("permission") || err.message.includes("PERMISSION_DENIED")){
-        msg = "لا توجد صلاحية لحفظ البيانات. تواصل مع الإدارة.";
-      } else if(err.message.includes("رفع الصورة")){
-        msg = err.message;
-      }
+      if(err.message.includes("Failed to fetch")) msg = "تعذّر الاتصال بالخادم.";
+      else if(err.message.includes("permission")) msg = "لا توجد صلاحية لحفظ البيانات.";
+      else if(err.message) msg = err.message;
     }
     showAlert("error", msg);
     setLoading(false);
